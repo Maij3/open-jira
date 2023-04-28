@@ -38,7 +38,7 @@ export const EntryPage: FC<Props> = ({ entry }) => {
   console.log({entry})
   const { updateEntry, deleteEntry } = useContext(EntriesContext);
   const [inputValue, setInputValue] = useState(entry.description);
-  const [inputHours , setInputHours]  = useState("")
+  const [inputHours , setInputHours]  = useState(entry.duration)
   const [status, setStatus] = useState<EntryStatus>(entry.status);
   const [touched, setTouched] = useState(false);
   const router = useRouter();
