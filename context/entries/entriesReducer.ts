@@ -25,6 +25,8 @@ export const entriesReducer = (
           if (entry._id === action.payload._id) {
             entry.status = action.payload.status;
             entry.description = action.payload.description;
+            entry.modifyTo = Date.now();
+            entry.duration = action.payload.duration
           }
           return entry;
         }),

@@ -9,7 +9,7 @@ const HomePage: NextPage = () => {
   // console.log(process.env.SECRET_KEY);
 
   return (
-    <Layout title="Home - OpenJira">
+    <Layout title="Home - Iris">
       <Grid container spacing={2}>
         <Grid item xs={12} sm={4}>
           <Card sx={{ height: "calc(100vh - 100px )" }}>

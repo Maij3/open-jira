@@ -1,56 +1,80 @@
-import { DragEvent, FC, useContext } from 'react';
-import { useRouter } from 'next/router';
-import { Card, CardActionArea, CardActions, CardContent, Typography } from '@mui/material';
+import { DragEvent, FC, useContext } from "react";
+import { useRouter } from "next/router";
+import {
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  Typography,
+} from "@mui/material";
 
-import { UIContext } from '../../context/ui/UIContext';
-import { Entry } from '../../interfaces';
+import { UIContext } from "../../context/ui/UIContext";
+import { Entry } from "../../interfaces";
 
-import { dateFunctions } from '../../utils';
-
+import { dateFunctions } from "../../utils";
 
 interface Props {
-    entry: Entry;
+  entry: Entry;
 }
 
-export const EntryCard:FC<Props>= ({ entry }) => {
+export const EntryCard: FC<Props> = ({ entry }) => {
+  const { startDragging, endDragging } = useContext(UIContext);
+  const router = useRouter();
 
-    const { startDragging, endDragging } = useContext( UIContext );
-    const router = useRouter()
+  const onDragStart = (event: DragEvent) => {
+    event.dataTransfer.setData("text", entry._id);
 
-    const onDragStart = ( event: DragEvent ) => {
-        event.dataTransfer.setData('text', entry._id );
+    startDragging();
+  };
 
-        startDragging();
-    }
+  const onDragEnd = () => {
+    endDragging();
+  };
 
-    const onDragEnd = () => {
-        endDragging();
-    }
-
-    const onClick = () => {
-        router.push(`/entries/${ entry._id }`);
-    }
-
+  const onClick = () => {
+    router.push(`/entries/${entry._id}`);
+  };
 
   return (
     <Card
-        onClick={ onClick }
-        sx={{ marginBottom: 1 }}
-        // Eventos de drag
-        draggable
-        onDragStart={ onDragStart }
-        onDragEnd={ onDragEnd }
+      onClick={onClick}
+      sx={{ marginBottom: 1 }}
+      // Eventos de drag
+      draggable
+      onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
     >
-        <CardActionArea>
-            <CardContent>
-                <Typography sx={{ whiteSpace: 'pre-line' }}>{ entry.description }</Typography>
-            </CardContent>
+      <CardActionArea>
+        <CardContent>
+          <Typography sx={{ whiteSpace: "pre-line" }}>
+            {entry.description}
+          </Typography>
+        </CardContent>
 
-            <CardActions sx={{ display: 'flex', justifyContent: 'end', paddingRight: 2 }}>
-                <Typography variant='body2'>{ dateFunctions.getFormatDistanceToNow( entry.createdAt ) }</Typography>
-            </CardActions>
-        </CardActionArea>
+        <CardActions
+          sx={{
+            display: "flex",
+            justifyContent: "end",
+            alignItems: "end",
+            flexDirection: "column",
+            paddingRight: 2,
+          }}
+        >
+          <Typography variant="body2">
+            Creado: {dateFunctions.getFormatDistanceToNow(entry.createdAt)}
+          </Typography>
+          {entry.modifyTo && (
+            <Typography variant="body2">
+              Modificado: {dateFunctions.getFormatDistanceToNow(entry.modifyTo)}
+            </Typography>
+          )}
+          {entry.duration && (
+            <Typography variant="body2">
+              Duracion: {entry.duration}
+            </Typography>
+          )}
+        </CardActions>
+      </CardActionArea>
     </Card>
-    
-  )
+  );
 };

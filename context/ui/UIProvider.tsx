@@ -1,58 +1,55 @@
-import { FC, useReducer } from 'react';
-import { UIContext, uiReducer } from './';
+import { FC, useReducer } from "react";
+import { UIContext, uiReducer } from "./";
 
 export interface UIState {
-    sidemenuOpen: boolean;
-    isAddingEntry: boolean;
-    isDragging: boolean;
+  sidemenuOpen: boolean;
+  isAddingEntry: boolean;
+  isDragging: boolean;
 }
-
 
 const UI_INITIAL_STATE: UIState = {
-    sidemenuOpen: false,
-    isAddingEntry: false,
-    isDragging: false,
-}
+  sidemenuOpen: false,
+  isAddingEntry: false,
+  isDragging: false,
+};
 
+export const UIProvider: FC = ({ children }) => {
+  const [state, dispatch] = useReducer(uiReducer, UI_INITIAL_STATE);
 
-export const UIProvider:FC = ({ children }) => {
+  const openSideMenu = () => {
+    dispatch({ type: "UI - Open Sidebar" });
+  };
 
-    const [state, dispatch] = useReducer( uiReducer, UI_INITIAL_STATE );
+  const closeSideMenu = () => dispatch({ type: "UI - Close Sidebar" });
 
+  const setIsAddingEntry = (isAdding: boolean) => {
+    dispatch({ type: "UI - Set isAddingEntry", payload: isAdding });
+  };
 
-    const openSideMenu = () => {
-        dispatch({ type: 'UI - Open Sidebar' });
-    }
+  const startDragging = () => {
+    dispatch({ type: "UI - Start Dragging" });
+  };
 
-    const closeSideMenu = () => dispatch({ type: 'UI - Close Sidebar' })
+  const endDragging = () => {
+    dispatch({ type: "UI - End Dragging" });
+  };
 
-    const setIsAddingEntry = ( isAdding: boolean ) => {
-        dispatch({ type:'UI - Set isAddingEntry', payload: isAdding });
-    }
+  return (
+    <UIContext.Provider
+      value={{
+        ...state,
 
-    const startDragging = () => {
-        dispatch({ type: 'UI - Start Dragging' });
-    }
+        // Methods
+        closeSideMenu,
+        openSideMenu,
 
-    const endDragging = () => {
-        dispatch({ type: 'UI - End Dragging' });
-    }
+        setIsAddingEntry,
 
-
-    return (
-        <UIContext.Provider value={{
-            ...state,
-
-            // Methods
-            closeSideMenu,
-            openSideMenu,
-            
-            setIsAddingEntry,
-
-            endDragging,
-            startDragging,
-        }}>
-            { children }
-        </UIContext.Provider>
-    )
+        endDragging,
+        startDragging,
+      }}
+    >
+      {children}
+    </UIContext.Provider>
+  );
 };

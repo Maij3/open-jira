@@ -1,10 +1,9 @@
-
-
-
 export interface Entry {
     _id: string;
     description: string;
     createdAt: number;
+    modifyTo: number;
+    duration: string;
     status: EntryStatus;
 }
 

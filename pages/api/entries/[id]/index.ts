@@ -48,10 +48,11 @@ const getEntry = async (req: NextApiRequest, res: NextApiResponse) => {
 
 const updateEntry = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   const { id } = req.query;
-
   await db.connect();
 
   const entryToUpdate = await Entry.findById(id);
+
+  console.log(req.query)
 
   if (!entryToUpdate) {
     await db.disconnect();
@@ -63,14 +64,19 @@ const updateEntry = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   const {
     description = entryToUpdate.description,
     status = entryToUpdate.status,
+    modifyTo = Date.now(),
+    duration = entryToUpdate.duration
   } = req.body;
+
+  console.log(req.body)
 
   try {
     const updatedEntry = await Entry.findByIdAndUpdate(
       id,
-      { description, status },
+      { description, status , modifyTo , duration },
       { runValidators: true, new: true }
     );
+    console.log(updatedEntry)
     await db.disconnect();
     res.status(200).json(updatedEntry!);
   } catch (error: any) {

@@ -7,6 +7,8 @@ export interface IEntry extends Entry {}
 const entrySchema = new Schema({
     description: { type: String, required: true },
     createdAt: { type: Number },
+    modifyTo: {type:Number},
+    duration:{type: String},
     status: {
         type: String,
         enum: {

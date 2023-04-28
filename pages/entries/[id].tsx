@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useMemo, useState, useContext } from "react";
+import { ChangeEvent, FC, useMemo, useState, useContext, useEffect } from "react";
 import { GetServerSideProps } from "next";
 
 import {
@@ -35,9 +35,10 @@ interface Props {
 }
 
 export const EntryPage: FC<Props> = ({ entry }) => {
-  const { updateEntry , deleteEntry } = useContext(EntriesContext);
-
+  console.log({entry})
+  const { updateEntry, deleteEntry } = useContext(EntriesContext);
   const [inputValue, setInputValue] = useState(entry.description);
+  const [inputHours , setInputHours]  = useState("")
   const [status, setStatus] = useState<EntryStatus>(entry.status);
   const [touched, setTouched] = useState(false);
   const router = useRouter();
@@ -51,6 +52,10 @@ export const EntryPage: FC<Props> = ({ entry }) => {
     setInputValue(event.target.value);
   };
 
+  const onInputHoursChanged= (event: ChangeEvent<HTMLInputElement>) => {
+    setInputHours(event.target.value);
+  };
+
   const onStatusChanged = (event: ChangeEvent<HTMLInputElement>) => {
     setStatus(event.target.value as EntryStatus);
   };
@@ -62,11 +67,12 @@ export const EntryPage: FC<Props> = ({ entry }) => {
       ...entry,
       status,
       description: inputValue,
+      duration: inputHours
     };
 
+    console.log(updatedEntry)
     updateEntry(updatedEntry, true);
-        router.push("/");
-
+    router.push("/");
   };
 
   const onDelete = () => {
@@ -98,6 +104,18 @@ export const EntryPage: FC<Props> = ({ entry }) => {
                 onBlur={() => setTouched(true)}
                 onChange={onInputValueChanged}
                 helperText={isNotValid && "Ingrese un valor"}
+                error={isNotValid}
+              />
+              <TextField
+                sx={{ marginTop: 1, marginBottom: 1 }}
+                label="Duración"
+                placeholder="Duración"
+                value={inputHours}
+                onBlur={()=> setTouched(true)}
+                onChange={onInputHoursChanged}
+                fullWidth
+                autoFocus
+                helperText={ isNotValid && "Ingrese las horas"}
                 error={isNotValid}
               />
 

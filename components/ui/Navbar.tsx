@@ -26,7 +26,7 @@ export const Navbar = () => {
 
               <NextLink href="/" passHref>
                 <Link underline='none' color="white">
-                   <Typography variant='h6'>OpenJira</Typography>
+                   <Typography variant='h6'>Iris</Typography>
                 </Link>
               </NextLink>
           </Toolbar>
