@@ -61,11 +61,16 @@ export const EntryCard: FC<Props> = ({ entry }) => {
           }}
         >
           <Typography variant="body2">
-            Creado: {dateFunctions.getFormatDistanceToNow(entry.createdAt)}
+            Creado: {dateFunctions.getFormat(entry.createdAt)}
           </Typography>
           {entry.modifyTo && (
             <Typography variant="body2">
-              Modificado: {dateFunctions.getFormatDistanceToNow(entry.modifyTo)}
+             Fecha de modificación: {dateFunctions.getFormat(entry.modifyTo)}
+            </Typography>
+          )}
+          {entry.modifyTo && (
+            <Typography variant="body2">
+                Tiempo desde la ultima  modificación: {dateFunctions.getFormatDistanceToNow(entry.modifyTo)}
             </Typography>
           )}
           {entry.duration && (
