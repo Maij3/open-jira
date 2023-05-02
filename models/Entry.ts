@@ -9,6 +9,7 @@ const entrySchema = new Schema({
     createdAt: { type: Number },
     modifyTo: {type:Number},
     duration:{type: String},
+    image:{type: String},
     status: {
         type: String,
         enum: {

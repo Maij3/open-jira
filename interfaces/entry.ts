@@ -4,6 +4,7 @@ export interface Entry {
     createdAt: number;
     modifyTo: number;
     duration: string;
+    image: string;
     status: EntryStatus;
 }
 

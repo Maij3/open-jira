@@ -24,14 +24,15 @@ export const EntriesProvider: FC = ({ children }) => {
   };
 
   const updateEntry = async (
-    { _id, description, status , duration  }: Entry,
+    { _id, description, status , duration , image  }: Entry,
     showSnackbar = false
   ) => {
     try {
       const { data } = await entriesApi.put<Entry>(`/entries/${_id}`, {
         description,
         status,
-        duration
+        duration,
+        image
       });
       console.log({data})
       dispatch({ type: "[Entry] Entry-Updated", payload: data });

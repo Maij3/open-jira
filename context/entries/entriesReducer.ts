@@ -27,6 +27,7 @@ export const entriesReducer = (
             entry.description = action.payload.description;
             entry.modifyTo = Date.now();
             entry.duration = action.payload.duration
+            entry.image = action.payload.image
           }
           return entry;
         }),

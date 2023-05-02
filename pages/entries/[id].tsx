@@ -1,4 +1,11 @@
-import { ChangeEvent, FC, useMemo, useState, useContext, useEffect } from "react";
+import {
+  ChangeEvent,
+  FC,
+  useMemo,
+  useState,
+  useContext,
+  useEffect,
+} from "react";
 import { GetServerSideProps } from "next";
 
 import {
@@ -16,6 +23,7 @@ import {
   RadioGroup,
   TextField,
   IconButton,
+  Box,
 } from "@mui/material";
 import { useRouter } from "next/router";
 
@@ -27,6 +35,8 @@ import { dbEntries } from "../../database";
 import { Layout } from "../../components/layouts";
 import { Entry, EntryStatus } from "../../interfaces";
 import { dateFunctions } from "../../utils";
+import Image from "next/image";
+import Link from "next/link";
 
 const validStatus: EntryStatus[] = ["pending", "in-progress", "finished"];
 
@@ -35,10 +45,11 @@ interface Props {
 }
 
 export const EntryPage: FC<Props> = ({ entry }) => {
-  console.log({entry})
+  console.log({ entry });
   const { updateEntry, deleteEntry } = useContext(EntriesContext);
   const [inputValue, setInputValue] = useState(entry.description);
-  const [inputHours , setInputHours]  = useState(entry.duration)
+  const [inputHours, setInputHours] = useState(entry.duration);
+  const [urlImage, setUrlImage] = useState(entry.image);
   const [status, setStatus] = useState<EntryStatus>(entry.status);
   const [touched, setTouched] = useState(false);
   const router = useRouter();
@@ -52,12 +63,16 @@ export const EntryPage: FC<Props> = ({ entry }) => {
     setInputValue(event.target.value);
   };
 
-  const onInputHoursChanged= (event: ChangeEvent<HTMLInputElement>) => {
+  const onInputHoursChanged = (event: ChangeEvent<HTMLInputElement>) => {
     setInputHours(event.target.value);
   };
 
   const onStatusChanged = (event: ChangeEvent<HTMLInputElement>) => {
     setStatus(event.target.value as EntryStatus);
+  };
+
+  const onInputUrlImage = (event: ChangeEvent<HTMLInputElement>) => {
+    setUrlImage(event.target.value);
   };
 
   const onSave = () => {
@@ -67,10 +82,11 @@ export const EntryPage: FC<Props> = ({ entry }) => {
       ...entry,
       status,
       description: inputValue,
-      duration: inputHours
+      duration: inputHours,
+      image: urlImage,
     };
 
-    console.log(updatedEntry)
+    console.log(updatedEntry);
     updateEntry(updatedEntry, true);
     router.push("/");
   };
@@ -111,14 +127,32 @@ export const EntryPage: FC<Props> = ({ entry }) => {
                 label="Duración"
                 placeholder="Duración"
                 value={inputHours}
-                onBlur={()=> setTouched(true)}
+                onBlur={() => setTouched(true)}
                 onChange={onInputHoursChanged}
                 fullWidth
                 autoFocus
-                helperText={ isNotValid && "Ingrese las horas"}
+                helperText={isNotValid && "Ingrese las horas"}
                 error={isNotValid}
               />
-
+              <TextField
+                sx={{ marginTop: 1, marginBottom: 1 }}
+                label="Url de la imagen"
+                placeholder="Url de la imagen"
+                value={urlImage}
+                onBlur={() => setTouched(true)}
+                onChange={onInputUrlImage}
+                fullWidth
+                autoFocus
+                helperText={isNotValid && "Ingrese la url de la imagen"}
+                error={isNotValid}
+              />
+              <a
+                target="_blank"
+                style={{ display: "block" , margin:"10px 0px" }}
+                href={urlImage}
+              >
+                {urlImage}
+              </a>
               <FormControl>
                 <FormLabel>Estado:</FormLabel>
                 <RadioGroup row value={status} onChange={onStatusChanged}>

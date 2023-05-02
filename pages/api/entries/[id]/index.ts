@@ -65,7 +65,8 @@ const updateEntry = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     description = entryToUpdate.description,
     status = entryToUpdate.status,
     modifyTo = Date.now(),
-    duration = entryToUpdate.duration
+    duration = entryToUpdate.duration,
+    image = entryToUpdate.image
   } = req.body;
 
   console.log(req.body)
@@ -73,7 +74,7 @@ const updateEntry = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   try {
     const updatedEntry = await Entry.findByIdAndUpdate(
       id,
-      { description, status , modifyTo , duration },
+      { description, status , modifyTo , duration , image},
       { runValidators: true, new: true }
     );
     console.log(updatedEntry)
