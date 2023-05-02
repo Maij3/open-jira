@@ -5,6 +5,7 @@ import { useSnackbar } from "notistack";
 import { entriesApi } from "../../apis";
 import { Entry } from "../../interfaces";
 import { EntriesContext, entriesReducer } from "./";
+import { setInterval } from "timers";
 
 export interface EntriesState {
   entries: Entry[];
@@ -17,6 +18,13 @@ const Entries_INITIAL_STATE: EntriesState = {
 export const EntriesProvider: FC = ({ children }) => {
   const [state, dispatch] = useReducer(entriesReducer, Entries_INITIAL_STATE);
   const { enqueueSnackbar } = useSnackbar();
+  
+  useEffect(()=>{
+    const interval = setInterval(()=>{
+        refreshEntries();
+    }, 12000)
+    return ()=> clearInterval(interval)
+  },[])
 
   const addNewEntry = async (description: string) => {
     const { data } = await entriesApi.post<Entry>("/entries", { description });
