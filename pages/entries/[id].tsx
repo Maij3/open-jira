@@ -150,6 +150,7 @@ export const EntryPage: FC<Props> = ({ entry }) => {
                 target="_blank"
                 style={{ display: "block" , margin:"10px 0px" }}
                 href={urlImage}
+                 rel="noreferrer" 
               >
                 {urlImage}
               </a>
