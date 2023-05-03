@@ -10,6 +10,7 @@ const entrySchema = new Schema({
     modifyTo: {type:Number},
     duration:{type: String},
     image:{type: String},
+    user:{type: String},
     status: {
         type: String,
         enum: {

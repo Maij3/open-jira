@@ -5,6 +5,7 @@ export interface Entry {
     modifyTo: number;
     duration: string;
     image: string;
+    user: string;
     status: EntryStatus;
 }
 

@@ -32,7 +32,7 @@ export const EntriesProvider: FC = ({ children }) => {
   };
 
   const updateEntry = async (
-    { _id, description, status , duration , image  }: Entry,
+    { _id, description, status , duration , image , user  }: Entry,
     showSnackbar = false
   ) => {
     try {
@@ -40,7 +40,8 @@ export const EntriesProvider: FC = ({ children }) => {
         description,
         status,
         duration,
-        image
+        image,
+        user
       });
       console.log({data})
       dispatch({ type: "[Entry] Entry-Updated", payload: data });

@@ -91,6 +91,14 @@ export const EntryCard: FC<Props> = ({ entry }) => {
               : {entry.duration}
             </Typography>
           )}
+          {entry.user && (
+            <Typography variant="body2" sx={{textTransform:"capitalize"}}>
+              <Box component={"span"} sx={{ fontWeight: "bold" }}>
+                Usuario
+              </Box>
+              : {entry.user}
+            </Typography>
+          )}
         </CardActions>
       </CardActionArea>
     </Card>

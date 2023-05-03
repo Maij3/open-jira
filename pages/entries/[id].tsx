@@ -52,6 +52,7 @@ export const EntryPage: FC<Props> = ({ entry }) => {
   const [urlImage, setUrlImage] = useState(entry.image);
   const [status, setStatus] = useState<EntryStatus>(entry.status);
   const [touched, setTouched] = useState(false);
+  const [user , setUser] = useState(entry.user);
   const router = useRouter();
 
   const isNotValid = useMemo(
@@ -71,6 +72,10 @@ export const EntryPage: FC<Props> = ({ entry }) => {
     setStatus(event.target.value as EntryStatus);
   };
 
+  const onUserChanged = (event: ChangeEvent<HTMLInputElement>) => {
+    setUser(event.target.value as EntryStatus);
+  };
+
   const onInputUrlImage = (event: ChangeEvent<HTMLInputElement>) => {
     setUrlImage(event.target.value);
   };
@@ -84,6 +89,7 @@ export const EntryPage: FC<Props> = ({ entry }) => {
       description: inputValue,
       duration: inputHours,
       image: urlImage,
+      user: user
     };
 
     console.log(updatedEntry);
@@ -154,6 +160,18 @@ export const EntryPage: FC<Props> = ({ entry }) => {
               >
                 {urlImage}
               </a>
+              <TextField
+                sx={{ marginTop: 1, marginBottom: 1 }}
+                label="Usuario"
+                placeholder="Usuario"
+                value={user}
+                onBlur={() => setTouched(true)}
+                onChange={onUserChanged}
+                fullWidth
+                autoFocus
+                helperText={isNotValid && "Ingrese el usuario"}
+                error={isNotValid}
+              />
               <FormControl>
                 <FormLabel>Estado:</FormLabel>
                 <RadioGroup row value={status} onChange={onStatusChanged}>
