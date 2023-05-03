@@ -1,6 +1,7 @@
 import { DragEvent, FC, useContext } from "react";
 import { useRouter } from "next/router";
 import {
+  Box,
   Card,
   CardActionArea,
   CardActions,
@@ -10,7 +11,7 @@ import {
 
 import { UIContext } from "../../context/ui/UIContext";
 import { Entry } from "../../interfaces";
-
+import EventNoteIcon from "@mui/icons-material/EventNote";
 import { dateFunctions } from "../../utils";
 
 interface Props {
@@ -61,21 +62,33 @@ export const EntryCard: FC<Props> = ({ entry }) => {
           }}
         >
           <Typography variant="body2">
-            Creado: {dateFunctions.getFormat(entry.createdAt)}
+            <Box component={"span"} sx={{ fontWeight: "bold" }}>
+              Creado
+            </Box>
+            : {dateFunctions.getFormat(entry.createdAt)}
           </Typography>
           {entry.modifyTo && (
             <Typography variant="body2">
-             Fecha de modificación: {dateFunctions.getFormat(entry.modifyTo)}
+              <Box component={"span"} sx={{ fontWeight: "bold" }}>
+                Fecha de modificación
+              </Box>
+              : {dateFunctions.getFormat(entry.modifyTo)}
             </Typography>
           )}
           {entry.modifyTo && (
             <Typography variant="body2">
-                Tiempo desde la ultima  modificación: {dateFunctions.getFormatDistanceToNow(entry.modifyTo)}
+              <Box component={"span"} sx={{ fontWeight: "bold" }}>
+                Tiempo desde la modificación
+              </Box>
+              : {dateFunctions.getFormatDistanceToNow(entry.modifyTo)}
             </Typography>
           )}
           {entry.duration && (
             <Typography variant="body2">
-              Duracion: {entry.duration}
+              <Box component={"span"} sx={{ fontWeight: "bold" }}>
+                Duración
+              </Box>
+              : {entry.duration}
             </Typography>
           )}
         </CardActions>
